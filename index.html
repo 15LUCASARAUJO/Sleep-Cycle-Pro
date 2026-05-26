@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial scale=1.0">
+        <title>Sleep Cycle</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <!--Home-->
+        <section id="homeScreen" class="screen active">
+            <div class="topbar">
+                <p class="topbar-label">Slepp Cycle</p>
+                <h1 class="topbar-title">Sono inteligente</h1>
+                <p class="topbar-sub">Baseado em ciclos de 90 min, consistência e recuperação real.</p>
+            </div>
+            <div class="wrap" style="padding-top:8px">
+                <!--Banner de sessão ativa-->
+                <div class="active-banner hidden" id="activeBanner" onclick="goToSleep()">
+                <div class="active-banner-left">
+                    <div class="pulse-dot"></div>
+                    <div>
+                    <div class="active-banner-label">Sessão ativa</div>
+                    <div class="active-banner-time" id="bannerTime">Dormindo desde --:--</div>
+                    </div>
+                </div>
+                <span class="active-banner-cta">Ver sessão →</span>
+                </div>
+                <!--Resumo da última noite-->
+                <div class="last-night hidden" id="lastNightCard">
+                <div class="last-night-header">
+                    <span class="last-night-label">Última noite</span>
+                    <div class="last-night-mood" id="lastNightMood"></div>
+                </div>
+                <div class="last-night-stats">
+                    <div class="ln-stat"><span class="ln-stat-label">Duração</span><span class="ln-stat-value" id="lnDuration">—</span></div>
+                    <div class="ln-stat"><span class="ln-stat-label">Ciclos</span><span class="ln-stat-value" id="lnCycles">—</span></div>
+                    <div class="ln-stat"><span class="ln-stat-label">Recuperação</span><span class="ln-stat-value" id="lnRecovery">—</span></div>
+                </div>
+                </div>
+                <div class="block">
+                <p class="block-label">Dormir agora</p>
+                <p class="block-title">Melhores horários para acordar</p>
+                <p class="block-sub">Calculado com +14 min de latência de sono</p>
+                <button class="btn btn-accent" id="sleepNowBtn">
+                    <svg class="nav-icon" style="width:16px;height:16px;stroke:#000000" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    Calcular horários
+                </button>
+                <div id="sleepNowResults" class="results"></div>
+                </div>
+
+                <div class="block">
+                <p class="block-label">Acordar às...</p>
+                <p class="block-title">Quando devo dormir?</p>
+                <p class="block-sub">Informe o horário do despertador</p>
+                <input type="time" class="time-input" id="wakeTimeInput"/>
+                <button class="btn btn-ghost" id="calculateSleepBtn">Calcular horário ideal</button>
+                <div id="sleepTimeResults" class="results"></div>
+                </div>
+                <!--Registro manual-->
+                <div class="block">
+                <p class="block-label">Registro manual</p>
+                <p class="block-sub" style="margin-bottom:12px">Esqueceu de iniciar a sessão? Adicione o sono manualmente.</p>
+                <button class="btn btn-ghost btn-sm" style="width:auto" onclick="openManualLog()">
+                    <svg style="width:14px;height:14px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Adicionar registro
+                </button>
+                </div>
+            </div>
+        </section>
+        <!--Sono-->
+        <section id="sleepScreen" class="screen">
+            <div class="sleep-full">
+                <div class="sleep-panel">
+                <div class="moon-icon-wrap">
+                    <svg class="moon-icon" viewBox="0 0 64 64" fill="none">
+                    <circle cx="32" cy="32" r="30" stroke="#3d4659" stroke-width="1"/>
+                    <path d="M44 37.5A16 16 0 1 1 26.5 20 12 12 0 0 0 44 37.5z" fill="#2873ff" opacity=".9"/>
+                    </svg>
+                </div>
+                <p class="session-date" id="sessionDate"></p>
+                <h1 class="sleep-panel-title">Modo sono</h1>
+                <p class="sleep-panel-sub">Descanse. O app acompanha tudo por você.</p>
+                <div class="sleep-stats">
+                    <div class="stat-box"><span class="stat-box-label">Dormiu às</span><span class="stat-box-value" id="sleepStartedAt">--:--</span></div>
+                    <div class="stat-box"><span class="stat-box-label">Previsão</span><span class="stat-box-value" id="plannedWakeTime">--:--</span></div>
+                </div>
+                <div class="timer-bar">
+                    <span class="timer-bar-label">Tempo dormindo</span>
+                    <span class="timer-bar-value" id="liveTimer">0h 00m</span>
+                </div>
+                <button class="btn btn-accent" id="wakeUpBtn">Acordei</button>
+                <span class="cancel-link" id="cancelSession">Cancelar sessão</span>
+                <div id="reviewSection" class="hidden">
+                    <div class="mood-section">
+                    <p class="mood-section-label">Como você se sente?</p>
+                    <div class="mood-grid">
+                        <button class="mood-btn" data-mood="Excelente">
+                        <span class="mood-btn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>
+                        Excelente
+                        </button>
+                        <button class="mood-btn" data-mood="Bom">
+                        <span class="mood-btn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 1 4 1 4-1 4-1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>
+                        Bom
+                        </button>
+                        <button class="mood-btn" data-mood="Cansado">
+                        <span class="mood-btn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 15h8"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>
+                        Cansado
+                        </button>
+                        <button class="mood-btn" data-mood="Péssimo">
+                        <span class="mood-btn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--err)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>
+                        Péssimo
+                        </button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+        <!--Análise-->
+        <section id="analyticsScreen" class="screen">
+            <div class="topbar">
+                <p class="topbar-label">Análise</p>
+                <h1 class="topbar-title">Padrão de sono</h1>
+            </div>
+            <div class="wrap" style="padding-top:8px">
+                <div class="block">
+                <p class="block-label">Pontuação de Sono</p>
+                <div class="score-section">
+                    <div class="score-ring-wrap">
+                    <svg viewBox="0 0 100 100"><circle class="ring-bg" cx="50" cy="50" r="40"/><circle class="ring-fg" id="scoreRingFg" cx="50" cy="50" r="40" stroke-dasharray="251" stroke-dashoffset="251"/></svg>
+                    <div class="score-num" id="sleepScore">—</div>
+                    </div>
+                    <div>
+                    <span class="score-val-label">Pontuação geral</span>
+                    <p class="score-status" id="scoreStatus">Sem dados</p>
+                    <p class="score-note" id="scoreText">Registre seu primeiro sono para começar.</p>
+                    </div>
+                </div>
+                <div class="confidence-wrap">
+                    <div class="confidence-label">
+                    <span>Confiança dos dados</span>
+                    <span id="confidenceLabel">0 / 7 registros</span>
+                    </div>
+                    <div class="confidence-track"><div class="confidence-fill" id="confidenceFill" style="width:0%"></div></div>
+                </div>
+                </div>
+                <!--Tendência semanal-->
+                <div class="block" id="trendBlock" style="display:none">
+                <p class="block-label">Esta semana vs anterior</p>
+                <div class="week-pills" id="weekPills"></div>
+                <div class="trend-wrap" id="trendWrap">
+                    <div class="trend-icon">
+                    <svg id="trendSvg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                    </div>
+                    <p class="trend-text" id="trendText">—</p>
+                </div>
+                </div>
+                <div class="block">
+                <p class="block-label">Métricas</p>
+                <div class="metrics-grid" id="metricsGrid">
+                    <div class="metric" data-tip="Média de horas dormidas por noite. A faixa saudável para adultos é 7–9h."><span class="metric-label">Média de sono</span><span class="metric-value" id="avgSleep">—</span><span class="metric-desc">horas por noite</span></div>
+                    <div class="metric" data-tip="Quão regular é o seu horário de dormir. Alta consistência = melhor qualidade."><span class="metric-label">Consistência</span><span class="metric-value" id="consistency">—</span><span class="metric-desc">regularidade</span></div>
+                    <div class="metric" data-tip="Horas de sono abaixo de 8h acumuladas. Acima de 10h começa a impactar saúde."><span class="metric-label">Dívida</span><span class="metric-value" id="sleepDebt">—</span><span class="metric-desc">déficit acumulado</span></div>
+                    <div class="metric" data-tip="Combinação de eficiência, humor ao acordar e duração. Indica recuperação física e mental."><span class="metric-label">Recuperação</span><span class="metric-value" id="recovery">—</span><span class="metric-desc">recuperação média</span></div>
+                    <div class="metric" data-tip="Cada ciclo dura ~90 min. O ideal são 5–6 ciclos completos por noite."><span class="metric-label">Ciclos / noite</span><span class="metric-value" id="avgCycles">—</span><span class="metric-desc">média de ciclos</span></div>
+                    <div class="metric" data-tip="Matutino: dorme antes das 21h. Intermediário: 21h–23h. Noturno: após meia-noite."><span class="metric-label">Cronotipo</span><span class="metric-value" id="chronotype" style="font-size:14px;font-family:var(--font);margin-top:4px">—</span><span class="metric-desc">padrão biológico</span></div>
+                </div>
+                </div>
+                <div class="block">
+                <p class="block-label">Insights</p>
+                <div id="insights" class="insights"></div>
+                </div>
+                <div class="block">
+                <p class="block-label">Recuperação</p>
+                <p class="block-sub" style="margin-bottom:0">Últimas 14 noites</p>
+                <div class="chart-wrap"><canvas id="analyticsChart" height="180"></canvas></div>
+                </div>
+            </div>
+        </section>
+        <!--Histórico-->
+        <section id="historyScreen" class="screen">
+        '    <div class="topbar">
+                <p class="topbar-label">Histórico</p>
+                <h1 class="topbar-title">Noites registradas</h1>
+            </div>
+            <div class="wrap" style="padding-top:8px">
+                <div class="block">
+                <div id="historyList" class="history-list"></div>
+                </div>
+            </div>'
+        </section>
+        <!--NAV-->
+        <nav class="nav">
+            <button class="nav-btn active" onclick="showScreen('homeScreen',this)">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <span class="nav-label">Dormir</span>
+            </button>
+            <button class="nav-btn" onclick="showAnalytics(this)">
+                <svg class="nav-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <span class="nav-label">Análise</span>
+            </button>
+            <button class="nav-btn" onclick="showHistory(this)">
+                <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span class="nav-label">Histórico</span>
+            </button>
+        </nav>
+        <!--Modal Registro Manual-->
+        <div class="modal-overlay" id="manualModal">
+            <div class="modal">
+                <p class="modal-title">Adicionar registro</p>
+                <p class="modal-sub">Informe os horários da noite que você quer registrar.</p>
+                <div class="modal-row">
+                    <div class="modal-field">
+                        <label>Dormiu às</label>
+                        <input type="time" class="modal-input" id="manualSleep"/>
+                    </div>
+                    <div class="modal-field">
+                        <label>Acordou às</label>
+                        <input type="time" class="modal-input" id="manualWake"/>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-ghost" onclick="closeManualLog()">Cancelar</button>
+                    <button class="btn btn-accent" onclick="saveManualLog()">Salvar</button>
+                </div>
+            </div>
+        </div>
+        <div class="metric-tooltip" id="metricTooltip"></div>
+        <div id="toast" class="toast"></div>
+        <script src="script.js"></script>
+    </body>
+</html>
