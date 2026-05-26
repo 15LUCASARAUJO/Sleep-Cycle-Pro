@@ -35,9 +35,9 @@ The **Sleep Cycle** app was developed to indicate sleep and wake times, based on
 
 ## Features
 
-- [ ] **Choosing a bedtime**
-- [ ] **Discover the best times to wake up based on your current sleep schedule**
-- [ ] **Reports on the user's sleep**
+- [x] **Choosing a bedtime**
+- [x] **Discover the best times to wake up based on your current sleep schedule**
+- [x] **Reports on the user's sleep**
 
 ---
 
@@ -143,9 +143,9 @@ O **Ciclo do Sono** foi desenvolvido com a finalidade de indicar horários para 
 
 ## Funcionalidades
 
-- [ x ] **Escolher horário para dormir**
-- [ x ] **Descobrir as melhores horas para acordar baseado na hora atual do sono**
-- [ x ] **Relatórios sobre o sono do usuário**
+- [x] **Escolher horário para dormir**
+- [x] **Descobrir as melhores horas para acordar baseado na hora atual do sono**
+- [x] **Relatórios sobre o sono do usuário**
 
 ---
 
