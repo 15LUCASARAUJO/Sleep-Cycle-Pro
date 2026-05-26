@@ -143,9 +143,9 @@ O **Ciclo do Sono** foi desenvolvido com a finalidade de indicar horários para 
 
 ## Funcionalidades
 
-- [ ] **Escolher horário para dormir**
-- [ ] **Descobrir as melhores horas para acordar baseado na hora atual do sono**
-- [ ] **Relatórios sobre o sono do usuário**
+- [ x ] **Escolher horário para dormir**
+- [ x ] **Descobrir as melhores horas para acordar baseado na hora atual do sono**
+- [ x ] **Relatórios sobre o sono do usuário**
 
 ---
 
