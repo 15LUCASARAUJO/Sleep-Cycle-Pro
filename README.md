@@ -4,8 +4,8 @@
   <p><b>Designed to calculate the best times to sleep and wake up refreshed, based on basic sleep cycle calculations. Includes reports to track sleep and its characteristics.</b></p>
 
   <!--<img src="https://img.shields.io/badge/Status-Planning-lightgrey?style=for-the-badge&logo=blueprint" alt="Planning">-->
-  <img src="https://img.shields.io/badge/Status-Developing-orange?style=for-the-badge&logo=visualstudiocode" alt="Developing"> 
-  <!-- <img src="https://img.shields.io/badge/Status-Completed-brightgreen?style=for-the-badge&logo=checkmarx" alt="Completed"> -->
+  <!-- <img src="https://img.shields.io/badge/Status-Developing-orange?style=for-the-badge&logo=visualstudiocode" alt="Developing"> -->
+  <img src="https://img.shields.io/badge/Status-Completed-brightgreen?style=for-the-badge&logo=checkmarx" alt="Completed"> 
   <!-- <img src="https://img.shields.io/badge/Status-Maintenance-blue?style=for-the-badge&logo=wrench" alt="Maintenance"> -->
 
   <br>
@@ -112,8 +112,8 @@ This project is licensed under the **MIT License** — see the [LICENSE.md](LICE
   <p><b>Feito para calcular os melhores horários para dormir e acordar disposto, baseado no cálculo básico do ciclo do sono. Contendo relatórios para registrar o sono e suas características.</b></p>
 
   <!-- <img src="https://img.shields.io/badge/Status-Planejamento-lightgrey?style=for-the-badge&logo=blueprint" alt="Planejamento">-->
-   <img src="https://img.shields.io/badge/Status-Em%20Desenvolvimento-orange?style=for-the-badge&logo=visualstudiocode" alt="Em Desenvolvimento"> 
-  <!-- <img src="https://img.shields.io/badge/Status-Concluído-brightgreen?style=for-the-badge&logo=checkmarx" alt="Concluído"> -->
+   <!-- <img src="https://img.shields.io/badge/Status-Em%20Desenvolvimento-orange?style=for-the-badge&logo=visualstudiocode" alt="Em Desenvolvimento"> -->
+  <img src="https://img.shields.io/badge/Status-Concluído-brightgreen?style=for-the-badge&logo=checkmarx" alt="Concluído"> 
   <!-- <img src="https://img.shields.io/badge/Status-Manutenção-blue?style=for-the-badge&logo=wrench" alt="Manutenção"> -->
 
   <br>
